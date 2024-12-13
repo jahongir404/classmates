@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Fira Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #282828;
+            color: #ebdbb2;
+        }
+
+        header {
+            text-align: center;
+            padding: 10px;
+            background-color: #3c3836;
+            color: #fabd2f;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+
+        .welcome-photo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 50vh;
+            overflow: hidden;
+        }
+
+        .welcome-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .info {
+            text-align: center;
+            padding: 15px;
+        }
+
+        .info p {
+            font-size: 1em;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: zoom-in;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+            z-index: 2;
+            position: relative;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.9);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #3c3836;
+            color: #fabd2f;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        a {
+            color: #fabd2f;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.5em;
+            }
+
+            .info p {
+                font-size: 0.9em;
+                padding: 0 10px;
+            }
+
+            .gallery {
+                gap: 5px;
+            }
+
+            .gallery img:hover {
+                transform: scale(1.05);
+            }
+
+            .welcome-photo {
+                height: 30vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>As-salamu ʿalaykum</h1>
+    </header>
+
+    <div class="welcome-photo">
+        <img src="https://i.ibb.co/vJZQVBn/photo-5409287314338858562-y.jpg" alt="Welcome Photo">
+    </div>
+
+    <div class="info">
+        <p>Друзя без паники , здесь наши фотки , это все просто по приколу )</p>
+    </div>
+
+    <div class="gallery">
+        <img src="https://i.ibb.co/8Y8yr6s/Screenshot-From-2024-12-13-10-24-09.png" alt="Photo 1">
+        <img src="https://i.ibb.co/LtG9GBP/photo-5420405069112789591-y.jpg" alt="Photo 2">
+        <img src="https://i.ibb.co/CmCTMb9/photo-5395697251835301809-y.jpg" alt="Photo 3">
+        <img src="https://i.ibb.co/6ZbMHqj/photo-5395697251835301752-y.jpg" alt="Photo 4">
+        <img src="https://i.ibb.co/Ny0BsBJ/4ee489d3-6b38-43dc-816b-729a78d56bde.jpg" alt="Photo 5">
+        <img src="https://i.ibb.co/pfprPCQ/photo-5422843227557449623-y.jpg" alt="Photo 6">
+    </div>
+
+    <div class="modal" id="modal">
+        <button class="close-btn" id="closeBtn">&times;</button>
+        <img id="modalImg" src="" alt="Expanded Photo">
+    </div>
+
+    <footer>
+        &copy; 2024 типа это моя разработка и все права зшишены )) 
+    </footer>
+
+    <script>
+        const galleryImages = document.querySelectorAll('.gallery img');
+        const modal = document.getElementById('modal');
+        const modalImg = document.getElementById('modalImg');
+        const closeBtn = document.getElementById('closeBtn');
+
+        galleryImages.forEach(image => {
+            image.addEventListener('click', () => {
+                modal.style.display = 'flex';
+                modalImg.src = image.src;
+            });
+        });
+
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
